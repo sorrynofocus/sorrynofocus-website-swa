@@ -1,0 +1,187 @@
+---
+import { SITE_TITLE, NAV_LINKS } from '../consts';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header class="site-header" data-header>
+  <div class="container bar">
+    <a href="/" class="brand">{SITE_TITLE}</a>
+
+    <button class="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="site-nav" data-menu-btn>
+      <span></span><span></span>
+    </button>
+
+    <nav id="site-nav" class="nav" data-nav>
+      <ul>
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: var(--nav-h);
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.4s var(--ease),
+      border-color 0.4s var(--ease);
+  }
+
+  /* Becomes solid once you scroll past the top */
+  .site-header.scrolled {
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: var(--line);
+  }
+
+  .bar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    text-decoration: none;
+  }
+
+  .nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav a {
+    position: relative;
+    padding-block: 0.5rem;
+    font-family: var(--font-label);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    text-decoration: none;
+  }
+
+  /* Thin underline that grows on hover and marks the current page */
+  .nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease);
+  }
+
+  .nav a:hover::after,
+  .nav a[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  .menu-btn {
+    display: none;
+  }
+
+  /* ---------- Mobile: full-screen overlay menu ---------- */
+  @media (max-width: 720px) {
+    .menu-btn {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 7px;
+      width: 32px;
+      padding: 8px 0;
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .menu-btn span {
+      display: block;
+      height: 1px;
+      background: var(--fg);
+      transition: transform 0.35s var(--ease);
+    }
+
+    .menu-btn[aria-expanded='true'] span:first-child {
+      transform: translateY(4px) rotate(45deg);
+    }
+    .menu-btn[aria-expanded='true'] span:last-child {
+      transform: translateY(-4px) rotate(-45deg);
+    }
+
+    .nav {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      padding-inline: var(--gutter);
+      background: var(--bg);
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.35s var(--ease),
+        visibility 0.35s;
+    }
+
+    .nav.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav ul {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .nav a {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 600;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector('[data-header]')!;
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]')!;
+  const nav = document.querySelector('[data-nav]')!;
+
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', String(open));
+    nav.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+</script>

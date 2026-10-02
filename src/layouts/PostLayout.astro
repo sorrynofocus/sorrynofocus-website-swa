@@ -1,0 +1,184 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { formatDate, tagSlug, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, heroImage } = post.data;
+---
+
+<BaseLayout title={title} description={description} image={heroImage}>
+  <article>
+    <header class="post-head container">
+      <a href="/blog/" class="back eyebrow">&larr; All posts</a>
+      <p class="eyebrow">
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+        {updatedDate && <span> / Updated {formatDate(updatedDate)}</span>}
+      </p>
+      <h1>{title}</h1>
+      <p class="lede">{description}</p>
+      {
+        tags.length > 0 && (
+          <ul class="tag-list">
+            {tags.map((tag) => (
+              <li>
+                <a class="tag" href={`/tags/${tagSlug(tag)}/`}>
+                  {tag}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    {
+      heroImage && (
+        <figure class="hero-img">
+          <img src={heroImage} alt="" />
+        </figure>
+      )
+    }
+
+    <div class="prose container">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-head {
+    max-width: calc(var(--prose-w) + 2 * var(--gutter));
+    padding-top: calc(var(--nav-h) + clamp(3rem, 8vw, 6rem));
+    padding-bottom: 3rem;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 2.5rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .back:hover {
+    color: var(--fg);
+  }
+
+  h1 {
+    font-size: clamp(2.25rem, 6vw, 4.25rem);
+  }
+
+  .lede {
+    margin: 0 0 2rem;
+    font-size: 1.2rem;
+    color: var(--fg-muted);
+  }
+
+  .hero-img {
+    margin: 0 0 4rem;
+  }
+
+  .hero-img img {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: cover;
+  }
+
+  /* ---------- Markdown content styling ---------- */
+  .prose {
+    max-width: calc(var(--prose-w) + 2 * var(--gutter));
+    padding-bottom: clamp(4rem, 10vw, 8rem);
+  }
+
+  .prose :global(h2) {
+    margin-top: 3.5rem;
+    font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+  }
+
+  .prose :global(h3) {
+    margin-top: 2.5rem;
+  }
+
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 1.4rem;
+  }
+
+  .prose :global(li + li) {
+    margin-top: 0.4rem;
+  }
+
+  .prose :global(a) {
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 3px;
+  }
+
+  .prose :global(a:hover) {
+    text-decoration-color: var(--fg);
+  }
+
+  .prose :global(blockquote) {
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--line-strong);
+    color: var(--fg-muted);
+    font-style: italic;
+  }
+
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+  }
+
+  .prose :global(:not(pre) > code) {
+    padding: 0.15em 0.4em;
+    border: 1px solid var(--line);
+    background: var(--bg-raised);
+  }
+
+  .prose :global(pre) {
+    margin: 2rem 0;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--line);
+    overflow-x: auto;
+    line-height: 1.55;
+  }
+
+  .prose :global(img) {
+    margin: 2.5rem 0;
+  }
+
+  .prose :global(hr) {
+    margin: 3.5rem 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .prose :global(table) {
+    width: 100%;
+    margin: 2rem 0;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .prose :global(th),
+  .prose :global(td) {
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+  }
+
+  .prose :global(th) {
+    font-family: var(--font-label);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+  }
+</style>

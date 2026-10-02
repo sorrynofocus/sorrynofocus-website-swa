@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Lost in space">
+  <section class="lost container">
+    <p class="eyebrow">Error 404</p>
+    <h1>Lost in space</h1>
+    <p class="msg">This page drifted out of orbit, or never existed.</p>
+    <a class="btn" href="/">Return home <span aria-hidden="true">&rarr;</span></a>
+  </section>
+</BaseLayout>
+
+<style>
+  .lost {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: var(--nav-h);
+  }
+
+  .msg {
+    margin: 0 0 2.5rem;
+    color: var(--fg-muted);
+  }
+</style>

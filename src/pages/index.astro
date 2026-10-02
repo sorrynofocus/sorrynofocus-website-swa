@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import PostCard from '../components/PostCard.astro';
+import { getPosts } from '../lib/posts';
+import { SITE_TAGLINE } from '../consts';
+
+const latest = (await getPosts()).slice(0, 3);
+---
+
+<BaseLayout>
+  <Hero
+    eyebrow={SITE_TAGLINE}
+    title="Build. Ship. Write it down."
+    subtitle="Systems, cloud and the occasional rabbit hole, logged in plain language."
+    ctaHref="/blog/"
+    ctaLabel="Read the blog"
+  />
+
+  <section id="latest" class="section">
+    <div class="container">
+      <div class="head reveal">
+        <p class="eyebrow">Latest posts</p>
+        <a href="/blog/" class="eyebrow all">View all &rarr;</a>
+      </div>
+      {latest.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+  }
+
+  .all {
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .all:hover {
+    color: var(--fg);
+  }
+</style>

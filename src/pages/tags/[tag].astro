@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPosts, tagSlug, type Post } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const byTag = new Map<string, { name: string; posts: Post[] }>();
+  for (const post of posts) {
+    for (const name of post.data.tags) {
+      const slug = tagSlug(name);
+      if (!byTag.has(slug)) byTag.set(slug, { name, posts: [] });
+      byTag.get(slug)!.posts.push(post);
+    }
+  }
+  return [...byTag].map(([tag, { name, posts }]) => ({ params: { tag }, props: { name, posts } }));
+}
+
+const { name, posts } = Astro.props as { name: string; posts: Post[] };
+---
+
+<BaseLayout title={`Tagged: ${name}`}>
+  <header class="page-head">
+    <div class="container">
+      <a href="/blog/" class="eyebrow back">&larr; All posts</a>
+      <p class="eyebrow">Tagged</p>
+      <h1>{name}</h1>
+    </div>
+  </header>
+
+  <section class="section list">
+    <div class="container">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .list {
+    padding-top: 0;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    text-decoration: none;
+  }
+
+  .back:hover {
+    color: var(--fg);
+  }
+</style>

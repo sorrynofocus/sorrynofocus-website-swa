@@ -1,0 +1,125 @@
+---
+import StarField from './StarField';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  ctaHref?: string;
+  ctaLabel?: string;
+}
+
+const { eyebrow, title, subtitle, ctaHref, ctaLabel = 'Explore' } = Astro.props;
+---
+
+<section class="hero">
+  <!-- client:load = "run this React component in the browser". Without it, React renders to static HTML only. -->
+  <StarField client:load />
+  <div class="horizon" aria-hidden="true"></div>
+
+  <div class="container content">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {subtitle && <p class="subtitle">{subtitle}</p>}
+    {
+      ctaHref && (
+        <a class="btn" href={ctaHref}>
+          {ctaLabel}
+          <span aria-hidden="true">&rarr;</span>
+        </a>
+      )
+    }
+  </div>
+
+  <a href="#latest" class="scroll-cue" aria-label="Scroll to content">
+    <span></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: radial-gradient(ellipse 120% 70% at 50% 120%, #1a1d24 0%, #07080a 45%, #000 70%);
+  }
+
+  /* Faint glowing planet edge at the bottom */
+  .horizon {
+    position: absolute;
+    left: 50%;
+    bottom: -150vw;
+    width: 220vw;
+    height: 160vw;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #000;
+    box-shadow:
+      0 -1px 0 rgba(255, 255, 255, 0.35),
+      0 -30px 80px -20px rgba(160, 190, 255, 0.18);
+    pointer-events: none;
+  }
+
+  .content {
+    position: relative;
+    padding-bottom: clamp(6rem, 16vh, 11rem);
+    animation: rise 1.4s var(--ease) both;
+  }
+
+  h1 {
+    max-width: 14ch;
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    letter-spacing: 0.02em;
+  }
+
+  .subtitle {
+    max-width: 44ch;
+    margin: 0 0 2.5rem;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    color: var(--fg-muted);
+  }
+
+  .scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 48px;
+    background: var(--line);
+    overflow: hidden;
+  }
+
+  .scroll-cue span {
+    display: block;
+    width: 100%;
+    height: 50%;
+    background: var(--fg);
+    animation: drop 2.2s var(--ease) infinite;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+  }
+
+  @keyframes drop {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(200%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .content,
+    .scroll-cue span {
+      animation: none;
+    }
+  }
+</style>

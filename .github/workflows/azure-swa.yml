@@ -1,0 +1,41 @@
+# GitHub Actions workflow: deploy to Azure Static Web Apps from GitHub.
+#
+# DISABLED BY DEFAULT: it only runs when you click "Run workflow" in the
+# GitHub Actions tab. GitLab CI (.gitlab-ci.yml) is the primary Azure deployer.
+# If both ran on every push, the same site would be deployed twice.
+#
+# To make GitHub the Azure deployer instead:
+#   1. GitHub repo > Settings > Secrets and variables > Actions > New repository secret
+#      Name: AZURE_STATIC_WEB_APPS_API_TOKEN   Value: <deployment token from the Azure portal>
+#   2. Uncomment the "push" trigger below.
+#   3. Remove the DEPLOYMENT_TOKEN variable from GitLab so GitLab stops deploying.
+
+name: Deploy to Azure Static Web Apps
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+
+      - name: Upload to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          app_location: dist # already built above
+          skip_app_build: true

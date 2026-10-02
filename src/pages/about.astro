@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUTHOR } from '../consts';
+---
+
+<BaseLayout title="About">
+  <header class="page-head">
+    <div class="container">
+      <p class="eyebrow">About</p>
+      <h1>{AUTHOR}</h1>
+      <p>Systems developer. Writing about what I build, break and learn.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container grid">
+      <div class="reveal">
+        <p class="eyebrow">Background</p>
+        <p>
+          Replace this with your story. This page is <code>src/pages/about.astro</code>. It's plain
+          HTML with a little Astro on top, so edit it like any HTML file.
+        </p>
+      </div>
+      <div class="reveal">
+        <p class="eyebrow">Currently</p>
+        <ul>
+          <li>Learning web development with Astro and React</li>
+          <li>Deploying to Vercel and Azure Static Web Apps</li>
+          <li>Getting comfortable with GitLab</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .grid p:not(.eyebrow),
+  .grid li {
+    color: var(--fg-muted);
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--fg);
+  }
+</style>

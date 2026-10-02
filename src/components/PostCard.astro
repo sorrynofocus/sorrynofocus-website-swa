@@ -1,0 +1,71 @@
+---
+import { formatDate, type Post } from '../lib/posts';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags, draft } = post.data;
+---
+
+<article class="card reveal">
+  <a href={`/blog/${post.id}/`} class="link">
+    <p class="eyebrow">
+      <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+      {tags.length > 0 && <span> / {tags.join(' · ')}</span>}
+      {draft && <span class="draft"> / Draft</span>}
+    </p>
+    <h3>{title}</h3>
+    <p class="desc">{description}</p>
+    <span class="more">Read <span aria-hidden="true">&rarr;</span></span>
+  </a>
+</article>
+
+<style>
+  .card {
+    border-top: 1px solid var(--line);
+  }
+
+  .link {
+    display: grid;
+    gap: 0.25rem;
+    padding-block: 2rem 2.5rem;
+    text-decoration: none;
+  }
+
+  h3 {
+    margin: 0;
+    transition: opacity 0.3s;
+  }
+
+  .desc {
+    margin: 0.5rem 0 1.25rem;
+    max-width: 60ch;
+    color: var(--fg-muted);
+  }
+
+  .more {
+    font-family: var(--font-label);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .more span {
+    display: inline-block;
+    transition: transform 0.35s var(--ease);
+  }
+
+  .link:hover .more span {
+    transform: translateX(6px);
+  }
+
+  .link:hover h3 {
+    opacity: 0.75;
+  }
+
+  .draft {
+    color: #f5c451;
+  }
+</style>

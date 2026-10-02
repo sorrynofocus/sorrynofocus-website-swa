@@ -1,0 +1,43 @@
+# GitLab CI/CD pipeline
+# ---------------------
+# GitLab runs this file automatically on every push (see Build > Pipelines in the GitLab UI).
+#
+#   build  - runs on every branch: installs, type-checks and builds the site.
+#            A broken post or typo fails here instead of on the live site.
+#   deploy - runs only on the default branch (main), and only after you add the
+#            DEPLOYMENT_TOKEN variable (Settings > CI/CD > Variables).
+#            Uploads dist/ to Azure Static Web Apps.
+#
+# Vercel does NOT use this file. Vercel watches the repo itself and builds on its own servers.
+
+stages:
+  - build
+  - deploy
+
+default:
+  image: node:22
+
+build:
+  stage: build
+  cache:
+    key:
+      files: [package-lock.json]
+    paths: [.npm/]
+  script:
+    - npm ci --cache .npm --prefer-offline
+    - npm run check
+    - npm run build
+  artifacts:
+    paths: [dist/]
+    expire_in: 1 week
+
+deploy_azure:
+  stage: deploy
+  needs: [build]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOYMENT_TOKEN'
+  environment:
+    name: azure-production
+  script:
+    # The official Azure Static Web Apps CLI, uploading the already-built dist/ folder.
+    - npx --yes @azure/static-web-apps-cli deploy ./dist --deployment-token "$DEPLOYMENT_TOKEN" --env production

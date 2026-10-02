@@ -1,0 +1,242 @@
+/*
+  Global styles. Every color, font and spacing value lives in the
+  variables below, so changing the whole look starts here.
+*/
+@import '@fontsource-variable/inter';
+@import '@fontsource/barlow/400.css';
+@import '@fontsource/barlow/500.css';
+@import '@fontsource/barlow-condensed/500.css';
+@import '@fontsource/barlow-condensed/600.css';
+
+:root {
+  --bg: #000;
+  --bg-raised: #0b0b0c;
+  --fg: #f5f5f5;
+  --fg-muted: #9a9a9e;
+  --line: rgba(255, 255, 255, 0.16);
+  --line-strong: rgba(255, 255, 255, 0.85);
+  --accent: #fff;
+
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-label: 'Barlow', 'Helvetica Neue', sans-serif;
+  --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  --tracking-wide: 0.16em;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --max-w: 1200px;
+  --prose-w: 70ch;
+  --nav-h: 72px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  flex: 1;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 1px solid var(--fg);
+  outline-offset: 4px;
+}
+
+/* ---------- Typography ---------- */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  margin: 0 0 0.5em;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+}
+h2 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+}
+h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+}
+
+/* Small uppercase label text, e.g. "LATEST POSTS", dates, tags */
+.eyebrow {
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-muted);
+  margin: 0 0 1rem;
+}
+
+/* ---------- Layout helpers ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: clamp(4rem, 10vw, 8rem);
+}
+
+.page-head {
+  padding-top: calc(var(--nav-h) + clamp(3rem, 8vw, 6rem));
+  padding-bottom: clamp(2rem, 5vw, 3rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.page-head p {
+  color: var(--fg-muted);
+  max-width: 60ch;
+  margin: 0;
+}
+
+/* ---------- Buttons ---------- */
+
+/* The signature "outline" button: thin border, fills white on hover */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 2rem;
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  text-decoration: none;
+  color: var(--fg);
+  background: transparent;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.35s var(--ease);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--fg);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.35s var(--ease);
+  z-index: -1;
+}
+
+.btn:hover {
+  color: var(--bg);
+}
+
+.btn:hover::before {
+  transform: scaleY(1);
+}
+
+/* ---------- Tags ---------- */
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line);
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  text-decoration: none;
+  color: var(--fg-muted);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.tag:hover {
+  border-color: var(--line-strong);
+  color: var(--fg);
+}
+
+/* ---------- Scroll reveal ---------- */
+
+/* Only hide content when JS is running, so the page still works without it. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s var(--ease),
+    transform 0.9s var(--ease);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .btn::before {
+    transition: none;
+  }
+}
