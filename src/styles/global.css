@@ -211,6 +211,113 @@ h3 {
   color: var(--fg);
 }
 
+/* ---------- Markdown content (blog posts, resume) ---------- */
+
+.prose h2 {
+  margin-top: 3.5rem;
+  font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+}
+
+.prose h3 {
+  margin-top: 2.5rem;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.4rem;
+}
+
+.prose li + li {
+  margin-top: 0.4rem;
+}
+
+.prose a {
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--fg);
+}
+
+.prose blockquote {
+  margin: 2rem 0;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--line-strong);
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+.prose :not(pre) > code {
+  padding: 0.15em 0.4em;
+  border: 1px solid var(--line);
+  background: var(--bg-raised);
+}
+
+.prose pre {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line);
+  overflow-x: auto;
+  line-height: 1.55;
+}
+
+.prose img {
+  width: 100%;
+}
+
+/* A Markdown image sits alone in its own paragraph */
+.prose p:has(> img:only-child) {
+  margin: 2.5rem 0;
+}
+
+/* Caption: an italic-only line right after an image */
+.prose p:has(> img:only-child):has(+ p > em:only-child) {
+  margin-bottom: 0.75rem;
+}
+
+.prose p:has(> img:only-child) + p:has(> em:only-child) {
+  margin-bottom: 2.5rem;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+}
+
+.prose hr {
+  margin: 3.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.prose table {
+  width: 100%;
+  margin: 2rem 0;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.prose th,
+.prose td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.prose th {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-muted);
+}
+
 /* ---------- Scroll reveal ---------- */
 
 /* Only hide content when JS is running, so the page still works without it. */

@@ -1,27 +1,38 @@
 ---
+// Home page: /
+// All text comes from the home_ strings in src/consts.ts.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import PostCard from '../components/PostCard.astro';
 import { getPosts } from '../lib/posts';
-import { SITE_TAGLINE } from '../consts';
+import {
+  SITE_TAGLINE,
+  home_headline,
+  home_subtitle,
+  home_buttonLabel,
+  home_buttonHref,
+  home_latestHeading,
+  home_viewAllLabel,
+  home_latestCount,
+} from '../consts';
 
-const latest = (await getPosts()).slice(0, 3);
+const latest = (await getPosts()).slice(0, home_latestCount);
 ---
 
 <BaseLayout>
   <Hero
     eyebrow={SITE_TAGLINE}
-    title="Build. Ship. Write it down."
-    subtitle="Systems, cloud and the occasional rabbit hole, logged in plain language."
-    ctaHref="/blog/"
-    ctaLabel="Read the blog"
+    title={home_headline}
+    subtitle={home_subtitle}
+    ctaHref={home_buttonHref}
+    ctaLabel={home_buttonLabel}
   />
 
   <section id="latest" class="section">
     <div class="container">
       <div class="head reveal">
-        <p class="eyebrow">Latest posts</p>
-        <a href="/blog/" class="eyebrow all">View all &rarr;</a>
+        <p class="eyebrow">{home_latestHeading}</p>
+        <a href="/blog/" class="eyebrow all">{home_viewAllLabel} &rarr;</a>
       </div>
       {latest.map((post) => <PostCard post={post} />)}
     </div>

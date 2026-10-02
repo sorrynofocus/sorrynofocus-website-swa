@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, NAV_LINKS } from '../consts';
+import { SITE_TITLE, NAV_LINKS, A11Y } from '../consts';
 
 const path = Astro.url.pathname;
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
@@ -9,7 +9,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
   <div class="container bar">
     <a href="/" class="brand">{SITE_TITLE}</a>
 
-    <button class="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="site-nav" data-menu-btn>
+    <button class="menu-btn" aria-label={A11Y.menuButton} aria-expanded="false" aria-controls="site-nav" data-menu-btn>
       <span></span><span></span>
     </button>
 
@@ -61,9 +61,8 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     z-index: 2;
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1.35rem;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
     text-decoration: none;
   }
 

@@ -13,7 +13,7 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
-    // Path to an image in /public, e.g. "/images/my-post.jpg"
+    // Banner image: a file in public/images/, written as "/images/my-post.jpg"
     heroImage: z.string().optional(),
     // Drafts show up in `npm run dev` but are left out of the real site.
     draft: z.boolean().default(false),

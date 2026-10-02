@@ -1,13 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  notfound_pageTitle,
+  notfound_label,
+  notfound_heading,
+  notfound_message,
+  notfound_buttonLabel,
+} from '../consts';
 ---
 
-<BaseLayout title="Lost in space">
+<BaseLayout title={notfound_pageTitle}>
   <section class="lost container">
-    <p class="eyebrow">Error 404</p>
-    <h1>Lost in space</h1>
-    <p class="msg">This page drifted out of orbit, or never existed.</p>
-    <a class="btn" href="/">Return home <span aria-hidden="true">&rarr;</span></a>
+    <p class="eyebrow">{notfound_label}</p>
+    <h1>{notfound_heading}</h1>
+    <p class="msg">{notfound_message}</p>
+    <a class="btn" href="/">{notfound_buttonLabel} <span aria-hidden="true">&rarr;</span></a>
   </section>
 </BaseLayout>
 

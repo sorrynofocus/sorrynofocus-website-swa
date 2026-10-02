@@ -1,16 +1,24 @@
 ---
-import { SITE_TITLE, AUTHOR } from '../consts';
+import { SITE_TITLE, AUTHOR, FOOTER_LINKS } from '../consts';
+import SocialLinks from './SocialLinks.astro';
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="container row">
-    <span>{SITE_TITLE} &copy; {year} {AUTHOR}</span>
-    <ul>
-      <li><a href="/rss.xml">RSS</a></li>
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href="/about/">About</a></li>
-    </ul>
+    <span><span class="brand">{SITE_TITLE}</span> &copy; {year} {AUTHOR}</span>
+    <div class="right">
+      <SocialLinks />
+      <ul class="links">
+        {
+          FOOTER_LINKS.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 </footer>
 
@@ -33,7 +41,20 @@ const year = new Date().getFullYear();
     justify-content: space-between;
   }
 
-  ul {
+  .brand {
+    text-transform: none;
+    letter-spacing: 0.06em;
+    color: var(--fg);
+  }
+
+  .right {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem 2.5rem;
+  }
+
+  .links {
     display: flex;
     gap: 2rem;
     list-style: none;

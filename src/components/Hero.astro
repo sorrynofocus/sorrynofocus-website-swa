@@ -1,5 +1,6 @@
 ---
 import StarField from './StarField';
+import { A11Y } from '../consts';
 
 interface Props {
   eyebrow?: string;
@@ -31,7 +32,7 @@ const { eyebrow, title, subtitle, ctaHref, ctaLabel = 'Explore' } = Astro.props;
     }
   </div>
 
-  <a href="#latest" class="scroll-cue" aria-label="Scroll to content">
+  <a href="#latest" class="scroll-cue" aria-label={A11Y.scrollCue}>
     <span></span>
   </a>
 </section>

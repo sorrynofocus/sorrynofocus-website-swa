@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // Your public URL. Used for the sitemap, RSS feed and social-share tags.
+  // Your public URL. Used for the sitemap and social-share tags.
   // Change this once you know your Vercel / Azure URL (or custom domain).
   site: 'https://example.com',
   integrations: [react(), sitemap()],

@@ -1,5 +1,6 @@
 ---
 import { formatDate, type Post } from '../lib/posts';
+import { blog_draftLabel, blog_readMore } from '../consts';
 
 interface Props {
   post: Post;
@@ -14,11 +15,11 @@ const { title, description, pubDate, tags, draft } = post.data;
     <p class="eyebrow">
       <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
       {tags.length > 0 && <span> / {tags.join(' · ')}</span>}
-      {draft && <span class="draft"> / Draft</span>}
+      {draft && <span class="draft"> / {blog_draftLabel}</span>}
     </p>
     <h3>{title}</h3>
     <p class="desc">{description}</p>
-    <span class="more">Read <span aria-hidden="true">&rarr;</span></span>
+    <span class="more">{blog_readMore} <span aria-hidden="true">&rarr;</span></span>
   </a>
 </article>
 

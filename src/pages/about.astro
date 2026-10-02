@@ -1,39 +1,125 @@
 ---
+// About page: /about/
+// All text comes from the about_ strings (and AUTHOR) in src/consts.ts.
+// The resume body lives in src/data/resume.md (see docs/administrator.md).
+import fs from 'node:fs';
+import path from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { AUTHOR } from '../consts';
+import RocketFlyby from '../components/RocketFlyby';
+import StarField from '../components/StarField';
+import {
+  AUTHOR,
+  about_pageTitle,
+  about_intro,
+  about_resumeJumpLabel,
+  about_backgroundHeading,
+  about_background,
+  about_currentlyHeading,
+  about_currently,
+  about_resumeLabel,
+  about_resumeUpdatedPrefix,
+  about_resumeHeading,
+  about_resumePdfLabel,
+  about_backToTopLabel,
+} from '../consts';
+import { Content as Resume, frontmatter as resume } from '../data/resume.md';
+import { formatDate } from '../lib/posts';
+
+// The "Download PDF" button only appears if public/resume.pdf exists.
+const hasPdf = fs.existsSync(path.join(process.cwd(), 'public', 'resume.pdf'));
+const updated = resume.updated ? formatDate(new Date(resume.updated)) : null;
 ---
 
-<BaseLayout title="About">
+<BaseLayout title={about_pageTitle}>
   <header class="page-head">
+    <!-- Same animated starfield as the home page, plus a faint rocket that drifts by now and then.
+         Tuning: see "Animations" in docs/administrator.md -->
+    <StarField client:load />
+    <RocketFlyby client:idle />
     <div class="container">
-      <p class="eyebrow">About</p>
+      <p class="eyebrow">{about_pageTitle}</p>
       <h1>{AUTHOR}</h1>
-      <p>Systems developer. Writing about what I build, break and learn.</p>
+      <p>{about_intro}</p>
+      <a href="#resume" class="eyebrow jump">{about_resumeJumpLabel} &darr;</a>
     </div>
   </header>
 
   <section class="section">
     <div class="container grid">
       <div class="reveal">
-        <p class="eyebrow">Background</p>
-        <p>
-          Replace this with your story. This page is <code>src/pages/about.astro</code>. It's plain
-          HTML with a little Astro on top, so edit it like any HTML file.
-        </p>
+        <p class="eyebrow">{about_backgroundHeading}</p>
+        {about_background.map((paragraph) => <p>{paragraph}</p>)}
       </div>
       <div class="reveal">
-        <p class="eyebrow">Currently</p>
+        <p class="eyebrow">{about_currentlyHeading}</p>
         <ul>
-          <li>Learning web development with Astro and React</li>
-          <li>Deploying to Vercel and Azure Static Web Apps</li>
-          <li>Getting comfortable with GitLab</li>
+          {about_currently.map((item) => <li>{item}</li>)}
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="resume" class="section resume">
+    <div class="container">
+      <div class="resume-head reveal">
+        <div>
+          <p class="eyebrow">
+            {about_resumeLabel}{updated && <span> / {about_resumeUpdatedPrefix} {updated}</span>}
+          </p>
+          <h2>{about_resumeHeading}</h2>
+        </div>
+        {
+          hasPdf && (
+            <a class="btn" href="/resume.pdf" download>
+              {about_resumePdfLabel} <span aria-hidden="true">&darr;</span>
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Rendered from src/data/resume.md -->
+      <div class="prose">
+        <Resume />
+      </div>
+
+      <div class="to-top">
+        <a href="#" class="btn">{about_backToTopLabel} <span aria-hidden="true">&uarr;</span></a>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  .to-top {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .page-head {
+    position: relative;
+    overflow: hidden;
+    /* Same deep-space gradient as the home page hero */
+    background: radial-gradient(ellipse 120% 90% at 50% 130%, #1a1d24 0%, #07080a 45%, #000 75%);
+  }
+
+  /* Keep the text above the rocket */
+  .page-head .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .jump {
+    display: inline-block;
+    margin-top: 2rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .jump:hover {
+    color: var(--fg);
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
@@ -45,14 +131,55 @@ import { AUTHOR } from '../consts';
     color: var(--fg-muted);
   }
 
-  ul {
+  .grid ul {
     margin: 0;
     padding-left: 1.1rem;
   }
 
-  code {
-    font-family: var(--font-mono);
-    font-size: 0.9em;
+  .resume {
+    border-top: 1px solid var(--line);
+    scroll-margin-top: var(--nav-h);
+  }
+
+  .resume-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .resume-head h2 {
+    margin: 0;
+  }
+
+  .resume .prose {
+    max-width: var(--prose-w);
+  }
+
+  /* Job titles: small and tight, so the section reads like a resume, not an article */
+  .resume .prose :global(h2) {
+    font-size: 1.1rem;
+    letter-spacing: var(--tracking-wide);
+    color: var(--fg-muted);
+  }
+
+  .resume .prose :global(h3) {
+    margin-top: 2rem;
+    margin-bottom: 0.25rem;
+    font-size: 1.35rem;
+  }
+
+  .resume .prose :global(h3 + p) {
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+  }
+
+  .resume .prose :global(strong) {
     color: var(--fg);
+    font-weight: 500;
   }
 </style>
