@@ -103,6 +103,7 @@ Run in PowerShell (or the VS Code terminal) inside the project folder.
 | `npm run build`   | Build the production site into `dist/` (plain HTML/CSS/JS).             |
 | `npm run preview` | Serve `dist/` locally: exactly what gets deployed.                      |
 | `npm run check`   | Type-check everything (like a compiler pass). CI runs this too.         |
+| `npm run og-image`| Regenerate `public/og-image.png` after editing `public/og-image.svg`.   |
 
 **Publish a change** (post, text, anything):
 
@@ -167,7 +168,8 @@ src/
   lib/posts.ts           Helpers: load posts, format dates, tag URLs
 public/                  Copied as-is to the site root
   favicon.svg            Browser-tab icon
-  og-image.svg           Preview image when a link is shared
+  og-image.svg           Link-preview image: the editable source
+  og-image.png           Link-preview image actually used (generated: npm run og-image)
   images/                Blog post banner images (heroImage)
   staticwebapp.config.json   Azure settings (404 page, headers, caching)
   resume.pdf             (optional) see Resume
@@ -303,7 +305,7 @@ Rules:
 | ----------------------- | ------------------------------------------------------------------------ |
 | Blog posts              | `src/content/blog/*.md`, see [Writing blog posts](#5-writing-blog-posts) |
 | Resume body             | `src/data/resume.md`                                                     |
-| Link-preview image text | `public/og-image.svg` (open in VS Code; text is in `<text>` tags)        |
+| Link-preview image text | `public/og-image.svg` (open in VS Code; text is in `<text>` tags), then run `npm run og-image` to regenerate `og-image.png` |
 
 ---
 
@@ -803,6 +805,7 @@ A hostname points at one host at a time (e.g. `www.` → Vercel, `azure.` → Az
 | Upgrade Astro (major)        | `npx @astrojs/upgrade` → read its notes → build → test → commit.                        |
 | Security check               | `npm audit` (only matters for build tools here; the live site is static files).         |
 | Change the site URL          | `site:` in `astro.config.mjs` (sitemap + share previews use it).                        |
+| Change the link-preview image | Edit `public/og-image.svg` → `npm run og-image` → commit both files. LinkedIn/X/Facebook need the PNG (they ignore SVG). LinkedIn caches previews: re-scrape at https://www.linkedin.com/post-inspector/ |
 
 **Before going live (one-time):** set `site:` in `astro.config.mjs`, fill in About text and resume, delete
 `src/content/blog/draft-example.md`.
