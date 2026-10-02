@@ -826,6 +826,7 @@ A hostname points at one host at a time (e.g. `www.` → Vercel, `azure.` → Az
 | Dev server port busy                            | Another `npm run dev` is running. Close that terminal or use `npm run dev -- --port 4322`. |
 | Animations don't play                           | OS "reduce motion" is on (intended), or the tab was in the background.              |
 | Change not visible in browser                   | Hard refresh: `Ctrl+F5`.                                                            |
+| Pushed, GitLab pipeline green, but Vercel still shows the old site | Vercel didn't receive the push. Fallback: Vercel → **Deployments** → **Create Deployment** → enter the commit SHA (`git log --oneline -1`). Root cause: GitLab → **Settings → Webhooks** → Vercel hook → **Recent events** (look for failures; **Test → Push events**), and Vercel → **Settings → Git** (repo still connected?). |
 | Deleted post still shows in `npm run dev`       | The dev server cached it. `Ctrl+C`, then `npm run dev` again. Still there? Stop it, run `Remove-Item -Recurse -Force .astro, node_modules\.astro`, restart. (The live site always builds fresh, so it's unaffected.) |
 
 ---
