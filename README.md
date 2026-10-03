@@ -1,5 +1,7 @@
 # SorryNoFocus: personal site & blog
 
+*THIS* repo is a replica of my site in [Gitlab -my-web-app](https://gitlab.com/sorrynofocus/my-web-app). I placed it here in github to activate Azure SWA.
+
 A minimal, dark, SpaceX-inspired static site and blog built with [Astro](https://astro.build) and React.
 Posts are Markdown files. Publishing is `git push`.
 
