@@ -1,8 +1,12 @@
-# SorryNoFocus: personal site & blog
+# Site source: SorryNoFocus - personal site & blog
 
-*THIS* repo is a replica of my site in [Gitlab -my-web-app](https://gitlab.com/sorrynofocus/my-web-app). I placed it here in github to activate Azure SWA.
+Host: [Vercel - SorryNoFocus](https://my-web-app-wine-alpha.vercel.app/)
+Source: [Gitlab -my-web-app](https://gitlab.com/sorrynofocus/my-web-app) 
 
-At the time of this deployment, the website is in [Azure web apps site - SorryNoFocus](https://icy-field-00abe291e.2.azurestaticapps.net) and the original is located in [Vercel - SorryNoFocus](https://my-web-app-wine-alpha.vercel.app/)
+Host: [Azure web apps site - SorryNoFocus](https://icy-field-00abe291e.2.azurestaticapps.net)
+Source: [GitHub -sorrynofocus-website-swa](https://github.com/sorrynofocus/sorrynofocus-website-swa) 
+
+Instructions to me: Modify one source repo, sync code and push to both. I could add two origins, but keeping github/gitlab source separate is ideal. 
 
 The website is described as a minimal, dark, SpaceX-inspired static site and blog built with [Astro](https://astro.build) and React.
 Posts are Markdown files. 
