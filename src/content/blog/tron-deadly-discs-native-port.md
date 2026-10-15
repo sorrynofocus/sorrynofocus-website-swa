@@ -51,6 +51,18 @@ TRON: Deadly Discs now runs on my Windows PC as a native x86-64 program, played 
 
 </div>
 
+I recorded a video as proof: the build folder deleted and everything rebuilt from scratch on camera, all the tests passing, then the freshly built game running with a controller.
+
+<div style="max-width: 720px; margin: 0 auto;">
+
+<div style="position: relative; aspect-ratio: 16 / 9;">
+<iframe src="https://www.youtube-nocookie.com/embed/MiaeO_WMID4" title="I Turned a 1981 Intellivision Game into a Native Windows .exe (TRON: Deadly Discs)" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
+</div>
+
+*The proof video, about 20 minutes. [Watch it on YouTube](https://youtu.be/MiaeO_WMID4).*
+
+</div>
+
 I grew up in the era of the Atari 2600 and the Intellivision, and a few games stayed with me. Deadly Discs (Mattel Electronics, 1981) was one of my favorites: simple by today's standards, but incredibly entertaining. I've owned the console and the cartridge since 1998. For years I played it in emulators (Bliss and jzIntv), but I wanted it running natively on a modern PC.
 
 <div style="max-width: 360px; margin: 0 auto;">
@@ -71,7 +83,7 @@ It was an iterative engineering process, not a one-prompt conversion. Reverse en
 
 ## TL;DR
 
-A 1981 Intellivision cartridge, statically recompiled: every original CP1610 instruction translated to x86-64, wrapped in a C model of the console's chips, and played natively on Windows with an Xbox controller. It's not an emulator of the CPU and not a remake.
+A 1981 Intellivision cartridge, statically recompiled: every original CP1610 instruction translated to x86-64, wrapped in a C model of the console's chips, and played natively on Windows with an Xbox controller. It's not an emulator of the CPU and not a remake. The [proof video](https://youtu.be/MiaeO_WMID4) shows a clean rebuild and the game running.
 
 ### The pipeline
 

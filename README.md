@@ -18,5 +18,15 @@ npm install        # once, after cloning
 npm run dev        # http://localhost:4321
 ```
 
+My build/commit steps:
+
+```
+cd %USERPROFILE%\source\github-repo\sorrynofocus\sorrynofocus-website-swa
+npm run dev        
+git add .
+git commit -m "Post: [MY ARTICLE TITLE/REASON]"
+git push origin main
+```
+
 **Everything else** (changing text, writing posts, resume, social icons, animation tuning, git, deploying to
 Vercel and Azure, routine operations, troubleshooting) is in **[docs/administrator.md](docs/administrator.md)**.
